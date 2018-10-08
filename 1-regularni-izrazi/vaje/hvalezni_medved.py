@@ -63,4 +63,3 @@ def find_prefix(niz, predpona):
 # >>> double_letters('A volunteer is worth twenty pressed men.')
 # {'volunteer', 'pressed'}
 ###############################################################################
-
