@@ -25,11 +25,13 @@ medved. Zvrhano zibelko sladkih hrušk mi je prinesel za en sam izdrt trn"."""
 # >>> find_words(test_text, 'de')
 # {'izdere', 'debel', 'oddide', 'začudeno'}
 ###############################################################################
+
+
 def find_words(niz, podniz):
     import re
     mnozica = set()
     ppodniz = r"\b\w*" + podniz + r"\w*\b"
-    for beseda in re.findall(ppodniz,niz):
+    for beseda in re.findall(ppodniz, niz):
         mnozica.add(beseda)
     return mnozica
 
@@ -40,13 +42,16 @@ def find_words(niz, podniz):
 # >>> find_prefix(test_text, 'zi')
 # {'zibala', 'zibel', 'zibelko'}
 ###############################################################################
+
+
 def find_prefix(niz, predpona):
     import re
     mnozica = set()
     ppredpona = r"\b" + predpona + r"\w*\b"
-    for beseda in re.findall(ppredpona,niz):
+    for beseda in re.findall(ppredpona, niz):
         mnozica.add(beseda)
     return mnozica
+
 ###############################################################################
 # 3) Sestavite funkcijo [find_suffix], ki vrne množico vseh besed, ki se
 #    pojavijo v nizu in imajo dano pripono.
@@ -56,10 +61,29 @@ def find_prefix(niz, predpona):
 ###############################################################################
 
 
+def find_suffix(niz, pripona):
+    import re
+    mnozica = set()
+    ppripona = r"\b\w+" + pripona + r"\b"
+    for beseda in re.findall(ppripona, niz):
+        mnozica.add(beseda)
+    return mnozica
+
 ###############################################################################
 # 4) Sestavite funkcijo [double_letters], ki sprejme niz in vrne množico vseh
 #    besed, ki vsebujejo podvojene črke.
 #
 # >>> double_letters('A volunteer is worth twenty pressed men.')
 # {'volunteer', 'pressed'}
+###############################################################################
+
+
+def double_letters(niz):
+    import re
+    mnozica = set()
+    dvojnab = r"\b\w+([a-z])\1\w+\b"
+    for beseda in re.findall(dvojnab, niz):
+        mnozica.add(beseda)
+    return mnozica
+
 ###############################################################################
