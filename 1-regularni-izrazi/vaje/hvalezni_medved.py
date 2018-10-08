@@ -81,9 +81,9 @@ def find_suffix(niz, pripona):
 def double_letters(niz):
     import re
     mnozica = set()
-    dvojnab = r"\b\w+([a-z])\1\w+\b"
+    dvojnab = r"(\b\w*([a-z])\2\w*\b)"
     for beseda in re.findall(dvojnab, niz):
-        mnozica.add(beseda)
+        mnozica.add(beseda[0])
     return mnozica
 
 ###############################################################################
