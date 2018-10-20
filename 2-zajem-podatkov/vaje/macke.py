@@ -45,11 +45,11 @@ def save_string_to_file(text, directory, filename):
 # Definirajte funkcijo, ki prenese glavno stran in jo shrani v datoteko.
 
 
-def save_frontpage(url,directory,filename):
+def save_frontpage(url, directory, filename):
     '''Save "cats_frontpage_url" to the file
     "cat_directory"/"frontpage_filename"'''
     text = download_url_to_string(url)
-    save_string_to_file(text,directory,filename)
+    save_string_to_file(text, directory, filename)
     return None
 
 ###############################################################################
@@ -61,7 +61,6 @@ def read_file_to_string(directory, filename):
     '''Return the contents of the file "directory"/"filename" as a string.'''
     with open(directory + "/" + filename) as vsebina:
         return vsebina.read()
-    return vsebina
 
 # Definirajte funkcijo, ki sprejme niz, ki predstavlja vsebino spletne strani,
 # in ga razdeli na dele, kjer vsak del predstavlja en oglas. To storite s
@@ -73,9 +72,9 @@ def page_to_ads(niz):
     '''Split "page" to a list of advertisement blocks.'''
     oglas = r"<div\sclass=\"ad.+clear\"></div>"
     seznam = []
-    for ujemanje in findall(niz,oglas):
+    for ujemanje in re.findall(niz, oglas):
         seznam.append(ujemanje)        
-    return seznam
+    return None
 
 # Definirajte funkcijo, ki sprejme niz, ki predstavlja oglas, in izlušči
 # podatke o imenu, ceni in opisu v oglasu.
