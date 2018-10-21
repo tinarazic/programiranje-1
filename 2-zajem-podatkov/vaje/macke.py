@@ -68,6 +68,8 @@ def read_file_to_string(directory, filename):
 # pomočjo regularnih izrazov, ki označujejo začetek in konec posameznega
 # oglasa. Funkcija naj vrne seznam nizov.
 
+vsebina = read_file_to_string(cat_directory, frontpage_filename)
+
 
 def page_to_ads(niz):
     '''Split "page" to a list of advertisement blocks.'''
@@ -80,6 +82,8 @@ def page_to_ads(niz):
 
 # Definirajte funkcijo, ki sprejme niz, ki predstavlja oglas, in izlušči
 # podatke o imenu, ceni in opisu v oglasu.
+
+oglasi = page_to_ads(vsebina)
 
 
 def get_dict_from_ad_block(seznam):
@@ -135,6 +139,7 @@ def write_csv(fieldnames, rows, directory, filename):
 # stolpce [fieldnames] pridobite iz slovarjev.
 
 cats = ads_from_file(cat_directory, frontpage_filename)
+
 
 def write_cat_ads_to_csv(cats):
     write_csv(['ime', 'opis', 'cena'], cats, cat_directory, csv_filename)
