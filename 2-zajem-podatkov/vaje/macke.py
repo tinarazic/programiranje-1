@@ -12,7 +12,7 @@ import os
 # definiratje URL glavne strani bolhe za oglase z mačkami
 cats_frontpage_url = 'http://www.bolha.com/zivali/male-zivali/macke/'
 # mapa, v katero bomo shranili podatke
-cat_directory = 'cat_data'
+cat_directory = '2-zajem-podatkov/vaje/cat_data'
 # ime datoteke v katero bomo shranili glavno stran
 frontpage_filename = 'frontpage.html'
 # ime CSV datoteke v katero bomo shranili podatke
@@ -61,7 +61,7 @@ def save_frontpage(url, directory, filename):
 
 def read_file_to_string(directory, filename):
     '''Return the contents of the file "directory"/"filename" as a string.'''
-    with open(directory + "/" + filename, 'r', encoding='utf8') as vsebina:
+    with open(directory + "\" + filename, 'r', encoding='utf8') as vsebina:
         return vsebina.read()
 
 # Definirajte funkcijo, ki sprejme niz, ki predstavlja vsebino spletne strani,
