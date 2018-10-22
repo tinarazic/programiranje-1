@@ -3,6 +3,7 @@ import re
 import string
 import csv
 import string
+import os
 
 ###############################################################################
 # Najprej definirajmo nekaj pomožnih orodij za pridobivanje podatkov s spleta.
@@ -127,7 +128,7 @@ def write_csv(fieldnames, rows, directory, filename):
     cell-value.'''
     os.makedirs(directory, exist_ok=True)
     path = os.path.join(directory, filename)
-    with open(path, 'w') as csv_file:
+    with open(path, 'w', encoding='utf-8') as csv_file:
         writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
         writer.writeheader()
         for row in rows:
@@ -141,6 +142,6 @@ def write_csv(fieldnames, rows, directory, filename):
 cats = ads_from_file(cat_directory, frontpage_filename)
 
 
-def write_cat_ads_to_csv(cats):
-    write_csv(['ime', 'opis', 'cena'], cats, cat_directory, csv_filename)
+def write_cat_ads_to_csv(seznam_slovarjev):
+    write_csv(['ime', 'opis', 'cena'], seznam_slovarjev, cat_directory, csv_filename)
     return None
