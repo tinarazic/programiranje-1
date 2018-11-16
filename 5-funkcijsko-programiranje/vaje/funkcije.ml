@@ -154,7 +154,10 @@ let rec zip_enum_tlrec l1 l2 =
  - : int list * string list = ([0; 1; 2], ["a"; "b"; "c"])
 [*----------------------------------------------------------------------------*)
 
-let rec unzip = ()
+let rec unzip = function
+  | [] -> ([],[])
+  | (x,y) :: xs -> (x :: unzip xs, y :: unzip xs)
+
 
 (*----------------------------------------------------------------------------*]
  Funkcija [unzip_tlrec] je repno rekurzivna različica funkcije [unzip].
@@ -163,7 +166,12 @@ let rec unzip = ()
  - : int list * string list = ([0; 1; 2], ["a"; "b"; "c"])
 [*----------------------------------------------------------------------------*)
 
-let rec unzip_tlrec = ()
+let rec unzip_tlrec list =
+  let rec unzip_tlrec' acc1 acc2 list =
+    match acc1, acc2, list with 
+    | _, _, [] -> (reverse(acc1), reverse(acc2))
+    | _, _, (x,y) :: xs -> unzip_tlrec' (x :: acc1) (y :: acc2) xs
+  in unzip_tlrec' [] [] list 
 
 (*----------------------------------------------------------------------------*]
  Funkcija [fold_left_no_acc f list] sprejme seznam [x0; x1; ...; xn] in
@@ -175,7 +183,8 @@ let rec unzip_tlrec = ()
  - : string = "FICUS"
 [*----------------------------------------------------------------------------*)
 
-let rec fold_left_no_acc = ()
+let rec fold_left_no_acc list f =
+  
 
 (*----------------------------------------------------------------------------*]
  Funkcija [apply_sequence f x n] vrne seznam zaporednih uporab funkcije [f] na
