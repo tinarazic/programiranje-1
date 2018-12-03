@@ -181,7 +181,15 @@ let rec member x = function
  funkcije [member2] na drevesu z n vozlišči, ki ima globino log(n). 
 [*----------------------------------------------------------------------------*)
 
-let rec member2 = ()
+let rec member2 x = function
+     | Empty -> false
+     | Node(lt, root, rt) ->
+     if x = root then
+     true
+     else if member2 x lt = false then
+     member2 x rt
+     else
+     true
 
 (*----------------------------------------------------------------------------*]
  Funkcija [succ] vrne naslednjika korena danega drevesa, če obstaja. Za drevo
@@ -195,6 +203,19 @@ let rec member2 = ()
  # pred (Node(Empty, 5, leaf 7));;
  - : int option = None
 [*----------------------------------------------------------------------------*)
+
+let rec min_list = function
+     | [] -> failwith "List too short!"
+     | x :: [] -> x
+     | x :: y :: [] -> if x <= y then x else y
+     | x :: y :: xs -> if x >= y then min_list x :: xs else min_list y :: xs
+let rec succ = function
+     | Empty -> None
+     | Node (lf, x, rt) -> 
+     let right = list_of_tree rt in
+     let min = min_list right in
+     Some min
+     
 
 
 (*----------------------------------------------------------------------------*]
