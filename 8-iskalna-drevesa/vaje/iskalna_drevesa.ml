@@ -204,25 +204,28 @@ let rec member2 x = function
  - : int option = None
 [*----------------------------------------------------------------------------*)
 
-let rec min_list = function
-     | [] -> failwith "List too short!"
-     | x :: [] -> x
-     | x :: y :: [] -> if x <= y then x else y
-     | x :: y :: xs -> if x >= y then min_list (y :: xs) else min_list (x :: xs)
+let rec min = function
+    | Empty -> None
+    | Node (Empty, x, _) -> Some x
+    | Node(lt, x, rt) -> min lt 
 
 let rec succ = function
-     | Empty -> None
-     | Node (lt, x, rt) -> 
-     let right = list_of_tree rt in
-     let min = min_list right in
-     Some min
-     
+    | Empty -> None
+    | Node(lt, x, rt) -> min rt
+
+
+
+let rec max = function
+    | Empty -> None
+    | Node (_, x, Empty) -> Some x
+    | Node(lt, x, rt) -> max rt 
+
+
 let rec pred = function
-     | Empty -> None
-     | Node(lt, x, rt) ->
-     let left = list_of_tree lt in
-     let min = min_list (List.map (fun x -> - x) left) in
-     Some (- min)
+    | Empty -> None
+    | Node(lt, x, rt) -> max lt
+
+
 
 (*----------------------------------------------------------------------------*]
  Na predavanjih ste omenili dva načina brisanja elementov iz drevesa. Prvi 
@@ -236,6 +239,7 @@ let rec pred = function
  Node (Node (Node (Empty, 0, Empty), 2, Empty), 5,
  Node (Node (Empty, 6, Empty), 11, Empty))
 [*----------------------------------------------------------------------------*)
+
 
 
 (*-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*]
