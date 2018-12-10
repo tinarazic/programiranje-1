@@ -226,7 +226,6 @@ let rec pred = function
     | Node(lt, x, rt) -> max lt
 
 
-
 (*----------------------------------------------------------------------------*]
  Na predavanjih ste omenili dva načina brisanja elementov iz drevesa. Prvi 
  uporablja [succ], drugi pa [pred]. Funkcija [delete x bst] iz drevesa [bst] 
@@ -240,7 +239,22 @@ let rec pred = function
  Node (Node (Empty, 6, Empty), 11, Empty))
 [*----------------------------------------------------------------------------*)
 
-
+let rec delete x tree =
+     match tree with
+     | Empty -> Empty (*Empty case*)
+     | Node(Empty, y, Empty) when x = y -> Empty (*Leaf case*)
+     | Node(Empty, y, rt) when x = y -> rt (*One sided*)
+     | Node(lt, y, Empty) when x = y -> lt (*One sided*)
+     | Node(lt, y, rt) when x <> y -> (*Recurse deeper*)
+     if  y < x then
+          Node(lt, y, delete x rt)
+     else 
+          Node(delete x lt, y, rt)
+     | Node(lt, y, rt) -> (*SUPER FUN CASE*)
+          match succ tree with
+          | None -> failwith "How is this possible?!" (*this cannot happen :D*) (*Case ki bi ga dobil smo že pokril*)
+          | Some z -> Node(lt, z, delete z rt)
+  
 
 (*-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*]
  SLOVARJI
@@ -253,6 +267,11 @@ let rec pred = function
  vrednosti, ga parametriziramo kot [('key, 'value) dict].
 [*-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*)
 
+type ('k, 'v) dict =
+     | Empty 
+     | Node of ('k, 'v) dict * ('k * 'v) * ('k, 'v) dict
+     
+let leaf (k, v) = Node(Empty, (k, v), Empty)
 
 (*----------------------------------------------------------------------------*]
  Napišite testni primer [test_dict]:
@@ -263,6 +282,10 @@ let rec pred = function
      "c":-2
 [*----------------------------------------------------------------------------*)
 
+let test_dict = 
+     let left = leaf ("a", 0) in
+     let right = Node(leaf ("c",-2), ("d",2), Empty) in 
+     Node(left, ("b",1), right)
 
 (*----------------------------------------------------------------------------*]
  Funkcija [dict_get key dict] v slovarju poišče vrednost z ključem [key]. Ker
@@ -274,6 +297,15 @@ let rec pred = function
  - : int option = Some (-2)
 [*----------------------------------------------------------------------------*)
 
+let rec dict_get key = function
+     | Empty -> None
+     | Node (ld, (k, v), rd) ->
+     if key = k then 
+     Some v 
+     else if key < k then
+     dict_get key ld
+     else
+     dict_get key rd
       
 (*----------------------------------------------------------------------------*]
  Funkcija [print_dict] sprejme slovar s ključi tipa [string] in vrednostmi tipa
@@ -290,7 +322,6 @@ let rec pred = function
  d : 2
  - : unit = ()
 [*----------------------------------------------------------------------------*)
-
 
 (*----------------------------------------------------------------------------*]
  Funkcija [dict_insert key value dict] v slovar [dict] pod ključ [key] vstavi
