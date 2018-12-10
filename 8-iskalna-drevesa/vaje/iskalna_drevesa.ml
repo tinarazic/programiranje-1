@@ -88,7 +88,7 @@ let tl_rec_size tree =
                | Empty -> size' acc ts (*Prazno drevo smao odstranimo iz vrste*)
                | Node (lt, x, rt) -> 
                let new_acc = acc + 1 in (*Obravnavamo vozlišče.*)
-               let new_queue = lt :: rt :: ts in (*Dodao pdodrevesa v vrsto.*)
+               let new_queue = lt :: rt :: ts in (*Dodamo pdodrevesa v vrsto.*)
                size' new_acc new_queue
           )
      in
@@ -208,15 +208,21 @@ let rec min_list = function
      | [] -> failwith "List too short!"
      | x :: [] -> x
      | x :: y :: [] -> if x <= y then x else y
-     | x :: y :: xs -> if x >= y then min_list x :: xs else min_list y :: xs
+     | x :: y :: xs -> if x >= y then min_list (y :: xs) else min_list (x :: xs)
+
 let rec succ = function
      | Empty -> None
-     | Node (lf, x, rt) -> 
+     | Node (lt, x, rt) -> 
      let right = list_of_tree rt in
      let min = min_list right in
      Some min
      
-
+let rec pred = function
+     | Empty -> None
+     | Node(lt, x, rt) ->
+     let left = list_of_tree lt in
+     let min = min_list (List.map (fun x -> - x) left) in
+     Some (- min)
 
 (*----------------------------------------------------------------------------*]
  Na predavanjih ste omenili dva načina brisanja elementov iz drevesa. Prvi 
