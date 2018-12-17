@@ -8,6 +8,12 @@
  # let l = randlist 10 10 ;;
  val l : int list = [0; 1; 0; 4; 0; 9; 1; 2; 5; 4]
 [*----------------------------------------------------------------------------*)
+let rec randlist len max =
+  let rec randlist' acc max = function
+    | 0 -> acc
+    | y -> 
+    let x = Random.int max in randlist' (x :: acc) max (y - 1)
+  in randlist' [] max len
 
 
 (*-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*]
@@ -18,6 +24,9 @@
  let test = (randlist 100 100) in (our_sort test = List.sort compare test);;
 [*-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*)
 
+let test_sort_fun our_sort =
+  let test = (randlist 100 100) in
+  (our_sort test = List.sort compare test)
 
 (*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*]
  Urejanje z Vstavljanjem
@@ -35,13 +44,26 @@
  - : int list = [7]
 [*----------------------------------------------------------------------------*)
 
+let rec insert y = function
+  | [] -> [y]
+  | x :: [] -> if y > x then x :: y :: [] else y :: x :: []
+  | x :: xs -> 
+  if y <= x then
+  y :: x :: xs
+  else x :: insert y xs
 
 (*----------------------------------------------------------------------------*]
  Prazen seznam je že urejen. Funkcija [insert_sort] uredi seznam tako da
  zaporedoma vstavlja vse elemente seznama v prazen seznam.
 [*----------------------------------------------------------------------------*)
 
-
+let rec insert_sort = function
+  | [] -> []
+  | x :: xs -> 
+  let rec insert_sort' acc = function
+    | [] -> acc
+    | z :: zs -> insert_sort' (insert z acc) zs
+  in insert_sort' [x] xs
 
 (*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*]
  Urejanje z Izbiranjem
@@ -53,6 +75,23 @@
  pojavitvijo elementa [z]. V primeru praznega seznama vrne [None]. 
 [*----------------------------------------------------------------------------*)
 
+let rec min = function
+  | [] -> failwith "List too short!"
+  | x :: [] -> x
+  | x :: y :: xs -> if y < x then min (y :: xs) else min (x :: xs)
+
+let rec remove x = function
+  | [] -> []
+  | y :: []  when y = x -> []
+  | y :: ys when y = x -> ys
+  | y :: ys -> y :: remove x ys
+
+let rec min_and_rest lst =
+  match lst with 
+  | [] -> None
+  | _ :: xs ->
+  let z = min lst in
+  Some (z, remove z lst)
 
 (*-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*]
  Pri urejanju z izbiranjem na vsakem koraku ločimo dva podseznama, kjer je prvi
@@ -72,7 +111,26 @@
  Namig: Uporabi [min_and_rest] iz prejšnje naloge.
 [*----------------------------------------------------------------------------*)
 
+let rec reverse list =
+  let rec reverse' list acc =
+    match list, acc with
+    | [], _ -> acc
+    | x :: xs, _ -> reverse' xs (x :: acc)
+  in reverse' list []
 
+let rec selection_sort lst =
+  match lst with
+  | [] -> []
+  | x :: xs -> 
+  let rec selection_sort' acc1 acc2 lst =
+    match acc1, acc2 with
+    | acc1, [] -> acc1
+    | acc1, acc2 -> 
+    let z = min_and_rest lst in 
+    match z with
+    | None -> failwith "Not possible!"
+    | Some (p, ps) -> selection_sort' (p :: acc1) ps (remove p lst)
+  in selection_sort' [] lst lst |> reverse
 
 (*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*]
  Urejanje z Izbiranjem na Tabelah

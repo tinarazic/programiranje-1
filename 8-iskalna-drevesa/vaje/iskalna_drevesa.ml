@@ -323,6 +323,8 @@ let rec dict_get key = function
  - : unit = ()
 [*----------------------------------------------------------------------------*)
 
+let rec print_dict
+
 (*----------------------------------------------------------------------------*]
  Funkcija [dict_insert key value dict] v slovar [dict] pod ključ [key] vstavi
  vrednost [value]. Če za nek ključ vrednost že obstaja, jo zamenja.
