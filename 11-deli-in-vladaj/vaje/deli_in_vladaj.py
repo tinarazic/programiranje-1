@@ -27,7 +27,18 @@
 #     [10, 2, 0, 4, 11, 15, 17, 5, 18]
 ##############################################################################
 
-
+def pivot(lst, start, end):
+    pivot = lst[start]
+    j = start + 1
+    for i in range(start + 1, end + 1):
+        if lst[i] >= pivot:
+            i += 1
+        else:
+            lst[i], lst[j] = lst[j], lst[i]
+            j += 1 
+            i += 1
+    lst[start], lst[j - 1] = lst[j - 1], pivot
+    return j - 1
 
 ##############################################################################
 # Tabelo a želimo urediti z algoritmom hitrega urejanja (quicksort).
@@ -42,6 +53,12 @@
 #   >>> quicksort(a)
 #   [2, 3, 4, 5, 10, 11, 15, 17, 18]
 ##############################################################################
+
+
+
+
+
+
 
 
 
