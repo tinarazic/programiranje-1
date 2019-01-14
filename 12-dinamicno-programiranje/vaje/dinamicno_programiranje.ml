@@ -21,6 +21,64 @@ let test_matrix =
      [| 2 ; 4 ; 5 |];
      [| 7 ; 0 ; 1 |] |]
 
+
+let max_cheese cheese_matrix =
+  let max_r = Array.length cheese_matrix in
+  (* število vrstic je dolžina matrike*)
+  let max_c = Array.length cheese_matrix.(0) in 
+  (*vzamem prvo vrstico in pogledam koliko elementov ima, to lahko faila, če imam prazen seznam, oziroma prazna matrika*)
+  
+  let rec max_cheese' r c =
+    (* Indices are unsuitable!*)
+    if r >= max_r || c >= max_c then
+      0
+    else
+      let right = max_cheese' r (c + 1) in
+      let down = max_cheese' (r + 1) c in
+      let our_cheese = cheese_matrix.(r).(c) in 
+      our_cheese + max right down
+  in
+  max_cheese' 0 0
+(*--------------------------------------------------------*)
+(* NAČIN z MEMOIZACIJO *)
+
+let memoiziraj_rec odviti_f =
+  let rezultati = Hashtbl.create 512 in
+  let rec mem_f x =
+    if Hashtbl.mem rezultati x then
+      Hashtbl.find rezultati x
+    else
+      let y = odviti_f mem_f x in
+      Hashtbl.add rezultati x y;
+      y
+  in
+  mem_f
+
+(* funckija uporablja en argument za ključ mi dva, to ni problem z naborom spremenimo v en argument!*)
+(* odviti f rekurzije ne naredimo sami *)
+
+let max_cheese cheese_matrix =
+  let max_r = Array.length cheese_matrix in
+  (* število vrstic je dolžina matrike*)
+  let max_c = Array.length cheese_matrix.(0) in 
+  (*vzamem prvo vrstico in pogledam koliko elementov ima, to lahko faila, če imam prazen seznam, oziroma prazna matrika*)
+  
+  let max_cheese' recursive_max_cheese' (r, c) =
+    (* Indices are unsuitable!*)
+    if r >= max_r || c >= max_c then
+      0
+    else
+      let right = recursive_max_cheese' (r, c + 1) in
+      let down = recursive_max_cheese' (r + 1, c) in
+      let our_cheese = cheese_matrix.(r).(c) in 
+      our_cheese + max right down
+  in
+  let memoised_max_cheese = memoiziraj_rec max_cheese' in
+  memoised_max_cheese (0, 0)
+  
+(* iz eksponentne časovne zahtevnosti pridemo na kvadratično*)
+
+
 (*----------------------------------------------------------------------------*]
  Rešujemo problem sestavljanja alternirajoče obarvanih stolpov. Imamo štiri
  različne tipe gradnikov, dva modra in dva rdeča. Modri gradniki so višin 2 in
@@ -36,6 +94,7 @@ let test_matrix =
  # alternating_towers 10;;
  - : int = 35
 [*----------------------------------------------------------------------------*)
+
 
 
 (*----------------------------------------------------------------------------*]
