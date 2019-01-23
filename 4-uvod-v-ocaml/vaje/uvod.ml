@@ -30,6 +30,10 @@ let rec penultimate_element = function
   | x :: y :: [] -> x
   | _ :: y :: ys ->  penultimate_element(y :: ys)
 
+let rec penultimate_element = function
+  | [] | [_] -> failwith "List too short!"
+  | x :: _ :: []-> x
+  | _ :: xs -> penultimate_element xs
 (*----------------------------------------------------------------------------*]
  Funkcija [get k list] poišče [k]-ti element v seznamu [list]. Številčenje
  elementov seznama (kot ponavadi) pričnemo z 0. Če je k negativen, funkcija
@@ -38,6 +42,11 @@ let rec penultimate_element = function
  # get 2 [0; 0; 1; 0; 0; 0];;
  - : int = 1
 [*----------------------------------------------------------------------------*)
+
+let rec get k = function
+  | [] -> failwith "List is too short."
+  | x :: xs -> if k <= 0 then x else get (k-1) xs
+
 
 let rec get k = function
 (* po navodilih, poelpšana verzija: k ne uporabljamo, zato lahko kar function uporabimo*)
@@ -55,6 +64,10 @@ let rec get k = function
 let rec double = function
  | [] -> []
  | x :: [] -> [x; x]
+ | x :: xs -> x :: x :: double xs
+
+let rec double = function
+ | [] -> []
  | x :: xs -> x :: x :: double xs
 
 (*----------------------------------------------------------------------------*]
@@ -83,6 +96,21 @@ let rec divide k list =
  # delete 3 [0; 0; 0; 1; 0; 0];;
  - : int list = [0; 0; 0; 0; 0]
 [*----------------------------------------------------------------------------*)
+let delete k list = 
+  match k, list with
+  | _, [] -> failwith "List too short!"
+  | k, list -> let (f, s) = divide k list 
+  in (
+    match s with
+    | [] -> f
+    | z :: zs -> f @ zs 
+  )
+
+(* LAŽJE!!!!*)
+let rec delete k = function
+  | [] -> failwith "List is too short."
+  | x :: xs -> if k = 0 then xs else x :: delete (k-1) xs
+
 
 let rec delete k  = function
   | [] -> failwith "List too short!"
@@ -118,6 +146,10 @@ let rec insert x k list =
   let rep = x :: l2 in
   l1 @ rep
 
+let rec insert x k = function
+  | [] -> [x]
+  | y :: ys -> if k <= 0 then x :: y :: ys else y :: insert x k ys
+
 (*----------------------------------------------------------------------------*]
  Funkcija [rotate n list] seznam zavrti za [n] mest v levo. Predpostavimo, da
  je [n] v mejah seznama.
@@ -142,6 +174,10 @@ let rec remove x = function
   | y :: []  when y = x -> []
   | y :: ys when y = x-> remove x ys
   | y :: ys -> y :: remove x ys
+
+let rec remove x = function
+  | [] -> []
+  | y :: ys -> if y == x then remove x ys else y :: remove x ys
 
 (*----------------------------------------------------------------------------*]
  Funkcija [is_palindrome] za dani seznam ugotovi ali predstavlja palindrom.
@@ -188,5 +224,5 @@ let rec second_largest list =
   let rec max_list = function
     | [] -> failwith "List too short!"
     | x :: [] -> x
-    | x :: ys -> max x (max_list ys) in
-    max_list (remove (max_list list) list)
+    | x :: ys -> (max x (max_list ys)) 
+  in max_list (remove (max_list list) list)

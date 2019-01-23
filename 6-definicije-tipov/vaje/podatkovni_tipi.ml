@@ -69,7 +69,7 @@ let to_pound = function
 [*----------------------------------------------------------------------------*)
 
 type intbool_list =
-       | Nil
+       | Nil (*ali pa Empty*)
        | Int of int * intbool_list
        | Bool of bool * intbool_list
 
@@ -118,7 +118,7 @@ let rec intbool_separate ib_list =
               | Bool (x, xs) -> intbool_separate' iacc (x :: bacc) xs
        in intbool_separate' [] [] (intbool_reverse ib_list)
 
-(*HOČEMO FUNCKIJO KI SLIKA V PAR NADAVNIH SEZANMOV, ZATO x NORMALNO PRIPOPAMO na akumulator*)
+(*HOČEMO FUNCKIJO KI SLIKA V PAR NAVADNIH SEZANMOV, ZATO x NORMALNO PRIPOPAMO na akumulator*)
 (*TRIK: obrnemo ŽE ZAČETNI SEZNAM! *)
 
 (*-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*]
@@ -136,6 +136,11 @@ let rec intbool_separate ib_list =
  raziskovanje oz. historian, teacher in researcher. Definirajte tip
  [specialisation], ki loči med temi zaposlitvami.
 [*----------------------------------------------------------------------------*)
+(*LAHKO TUDI V ENI VRSTICI*)
+
+type magic = Fire | Frost | Arcane
+
+type specialisation = Historian | Teacher | Researcher
 
 type magic = 
        | Fire

@@ -1,4 +1,7 @@
+# 3. NALOGA PYTHON
+
 from functools import lru_cache
+
 # Na nagradni igri ste zadeli kupon, ki vam omogoča, da v Mercatorju kupite
 # poljubne izdelke, katerih skupna masa ne presega [max_w] kilogramov. Napišite
 # funkcijo [best_value articles max_w], ki poišče največjo skupno ceno, ki jo
@@ -32,7 +35,7 @@ articles = [
 # PODNALOGA a)
 
 
-def best_value_uniques(articles, max_w):
+def best_value(articles, max_w):
     def best_val(w):
         options = []
         for item in articles:
@@ -48,13 +51,13 @@ def best_value_uniques(articles, max_w):
             return 0
     return best_val(max_w)
 
-print(best_value_uniques(articles, 1))
+print(best_value(articles, 1))
 
 # MEMOIZACIJA
 # PODNALOGA a)
 
 
-def best_value_uniques(articles, max_w):
+def best_value(articles, max_w):
     @lru_cache(maxsize=None)
     def best_val(w):
         options = []
@@ -71,7 +74,7 @@ def best_value_uniques(articles, max_w):
             return 0
     return best_val(max_w)
 
-print(best_value_uniques(articles, 1))
+print(best_value(articles, 1))
 
 
 # PODNALOGA b)

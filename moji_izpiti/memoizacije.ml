@@ -1,29 +1,3 @@
-(* PYTHON *)
-
-(* Naša funckija *)
-(*
-
-def memoiziraj(f):
-    rezultati = {}
-    def mem_f(x):
-        if x not in rezultati:
-            rezultati[x] = f(x)
-        return rezultati[x]
-    return mem_f
-    
-@memoiziraj 
-
-*)
-
-(* Vgrajena funckija *)
-(*
-
-from functools import lru_cache
-@lru_cache(maxsize=None)
-
-*)
-
-
 (* OCAML *)
 
 (* Memoizacija poljubne funkcije *)
